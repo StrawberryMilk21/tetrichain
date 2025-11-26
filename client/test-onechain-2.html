@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OneChain Wallet Deep Test</title>
+</head>
+<body>
+    <h1>OneChain Wallet Deep Inspection</h1>
+    <button id="testBtn">Inspect Wallet</button>
+    <pre id="output"></pre>
+
+    <script type="module">
+        const output = document.getElementById('output');
+        
+        document.getElementById('testBtn').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Inspecting...\n';
+                
+                if (!window.onechain?.sui) {
+                    output.textContent += 'ERROR: OneChain wallet not found!\n';
+                    return;
+                }
+                
+                const wallet = window.onechain.sui;
+                
+                // Check if wallet has Transaction class
+                output.textContent += '=== Checking for Transaction class in wallet ===\n';
+                output.textContent += `wallet.Transaction: ${typeof wallet.Transaction}\n`;
+                output.textContent += `window.onechain.Transaction: ${typeof window.onechain.Transaction}\n`;
+                
+                // Check all properties
+                output.textContent += '\n=== All wallet properties ===\n';
+                for (const key in wallet) {
+                    if (typeof wallet[key] === 'function' || typeof wallet[key] === 'object') {
+                        output.textContent += `${key}: ${typeof wallet[key]}\n`;
+                    }
+                }
+                
+                // Check prototype chain
+                output.textContent += '\n=== Prototype chain ===\n';
+                let proto = Object.getPrototypeOf(wallet);
+                let depth = 0;
+                while (proto && depth < 5) {
+                    output.textContent += `Level ${depth}: ${proto.constructor.name}\n`;
+                    const props = Object.getOwnPropertyNames(proto);
+                    output.textContent += `  Properties: ${props.slice(0, 10).join(', ')}${props.length > 10 ? '...' : ''}\n`;
+                    proto = Object.getPrototypeOf(proto);
+                    depth++;
+                }
+                
+                console.log('Full wallet object:', wallet);
+                console.log('window.onechain:', window.onechain);
+                
+            } catch (error) {
+                output.textContent += `\nERROR: ${error.message}\n`;
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>

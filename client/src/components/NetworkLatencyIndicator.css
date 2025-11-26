@@ -1,0 +1,104 @@
+.network-indicator {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.network-indicator.good {
+  border-color: rgba(0, 255, 136, 0.5);
+}
+
+.network-indicator.fair {
+  border-color: rgba(255, 200, 0, 0.5);
+}
+
+.network-indicator.poor {
+  border-color: rgba(255, 68, 68, 0.5);
+  animation: pulse-warning 1s ease-in-out infinite;
+}
+
+.network-indicator.disconnected {
+  border-color: rgba(255, 0, 0, 0.7);
+  animation: pulse-warning 1s ease-in-out infinite;
+}
+
+@keyframes pulse-warning {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.indicator-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.indicator-text {
+  color: #fff;
+  font-family: 'Courier New', monospace;
+}
+
+.network-indicator.good .indicator-text {
+  color: #00ff88;
+}
+
+.network-indicator.fair .indicator-text {
+  color: #ffc800;
+}
+
+.network-indicator.poor .indicator-text {
+  color: #ff4444;
+}
+
+.network-indicator.disconnected .indicator-text {
+  color: #ff0000;
+}
+
+.lag-warning {
+  font-size: 0.75rem;
+  color: #ff4444;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .network-indicator {
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .indicator-icon {
+    font-size: 0.9rem;
+  }
+
+  .lag-warning {
+    display: none; /* Hide on mobile to save space */
+  }
+}

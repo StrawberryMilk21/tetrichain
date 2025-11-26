@@ -1,0 +1,279 @@
+.username-modal-overlay {
+  z-index: 2000; /* Higher than other modals */
+}
+
+.username-registration-modal {
+  background: linear-gradient(135deg, rgba(20, 20, 30, 0.98), rgba(30, 30, 40, 0.98));
+  border: 3px solid var(--primary-color, #00ff88);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 550px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 255, 136, 0.3);
+  animation: modalSlideIn 0.4s ease-out;
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.modal-header h2 {
+  font-size: 2.5rem;
+  color: var(--primary-color, #00ff88);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+}
+
+.modal-subtitle {
+  color: #888;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.username-form {
+  margin-bottom: 2rem;
+}
+
+.username-input-group {
+  margin-bottom: 1.5rem;
+}
+
+.username-input-group label {
+  display: block;
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.username-input {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  font-family: 'Courier New', monospace;
+}
+
+.username-input:focus {
+  border-color: var(--primary-color, #00ff88);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+.username-input.valid {
+  border-color: var(--primary-color, #00ff88);
+}
+
+.username-input.error {
+  border-color: #ff4444;
+}
+
+.username-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.username-input::placeholder {
+  color: #444;
+  letter-spacing: 0.05rem;
+}
+
+.input-requirements {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.input-requirements span {
+  transition: color 0.3s ease;
+}
+
+.input-requirements span.met {
+  color: var(--primary-color, #00ff88);
+  font-weight: bold;
+}
+
+.validation-error {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(255, 68, 68, 0.1);
+  border: 1px solid rgba(255, 68, 68, 0.3);
+  border-radius: 4px;
+  color: #ff4444;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.registration-error {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: rgba(255, 68, 68, 0.2);
+  border: 1px solid rgba(255, 68, 68, 0.5);
+  border-radius: 4px;
+  color: #ff4444;
+  font-size: 0.9rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.username-suggestions {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.suggestions-label {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.suggestion-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.suggestion-btn {
+  flex: 1;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+}
+
+.suggestion-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--primary-color, #00ff88);
+  transform: translateY(-2px);
+}
+
+.suggestion-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modal-actions {
+  margin-bottom: 1.5rem;
+}
+
+.modal-actions .btn {
+  width: 100%;
+}
+
+.username-info {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.username-info h4 {
+  font-size: 1rem;
+  color: var(--primary-color, #00ff88);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.username-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.username-info li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: #ccc;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.username-info li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--primary-color, #00ff88);
+  font-weight: bold;
+}
+
+/* Animations */
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-50px) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .username-registration-modal {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .modal-header h2 {
+    font-size: 2rem;
+  }
+
+  .username-input {
+    font-size: 1.2rem;
+    padding: 0.75rem;
+  }
+
+  .input-requirements {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .suggestion-buttons {
+    flex-direction: column;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.modal-actions .btn {
+  flex: 1;
+}
+
+.modal-actions .btn-secondary {
+  background: #333;
+  border-color: #555;
+}
+
+.modal-actions .btn-secondary:hover:not(:disabled) {
+  background: #444;
+  border-color: #666;
+}
