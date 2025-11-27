@@ -74,10 +74,51 @@
     margin: 20px 0 0 0;
 }
 
-.skin-unlock-close {
-    width: 100%;
-    padding: 12px;
+.skin-unlock-claimed {
+    font-size: 16px;
+    color: #00ff00;
+    margin: 20px 0 0 0;
+    font-weight: bold;
+}
+
+.skin-unlock-error {
+    font-size: 14px;
+    color: #ff6666;
+    margin: 10px 0 0 0;
+}
+
+.skin-unlock-buttons {
+    display: flex;
+    gap: 10px;
     margin-top: 20px;
+}
+
+.skin-unlock-claim {
+    flex: 1;
+    padding: 12px;
+    background: linear-gradient(135deg, #f0a000 0%, #d08000 100%);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.skin-unlock-claim:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(240, 160, 0, 0.5);
+}
+
+.skin-unlock-claim:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.skin-unlock-close {
+    flex: 1;
+    padding: 12px;
     background: linear-gradient(135deg, #00f0f0 0%, #00a0a0 100%);
     color: #000;
     border: none;

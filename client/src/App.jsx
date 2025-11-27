@@ -11,6 +11,7 @@ import UsernameRegistrationModal from './components/UsernameRegistrationModal.js
 import MultiplayerMenu from './components/MultiplayerMenu.jsx';
 import BattleView from './components/BattleView.jsx';
 import SkinUnlockNotification from './components/SkinUnlockNotification.jsx';
+import CustomizationMenu from './components/CustomizationMenu.jsx';
 import { useGame } from './hooks/useGame.js';
 import { useBlockchain } from './hooks/useBlockchain.js';
 import { useWebSocket } from './hooks/useWebSocket.js';
@@ -21,11 +22,15 @@ import { useSkinUnlocks } from './hooks/useSkinUnlocks.js';
 function App() {
     const [gameSeedObjectId, setGameSeedObjectId] = useState(null);
     const [gameSeed, setGameSeed] = useState(null);
-    const [currentScreen, setCurrentScreen] = useState('landing'); // landing, username, menu, solo, multiplayer, config, marketplace
+    const [currentScreen, setCurrentScreen] = useState('landing'); // landing, username, menu, solo, multiplayer, config, marketplace, customization
     const [gameMode, setGameMode] = useState('menu'); // menu, playing, gameOver
     const [loadingMessage, setLoadingMessage] = useState('');
     const [toast, setToast] = useState({ show: false, type: 'success', message: '' });
     const [showTutorial, setShowTutorial] = useState(false);
+    const [selectedSkin, setSelectedSkin] = useState(() => {
+        return parseInt(localStorage.getItem('selectedSkin') || '0');
+    });
+    const [isClaimingSkin, setIsClaimingSkin] = useState(false);
     
     const game = useGame(gameSeed);
     const blockchain = useBlockchain();
@@ -133,6 +138,34 @@ function App() {
         setGameSeed(null);
     };
 
+    // Handle skin selection
+    const handleSelectSkin = (skinId) => {
+        setSelectedSkin(skinId);
+        localStorage.setItem('selectedSkin', skinId.toString());
+        showToast('success', 'Skin selected!');
+    };
+
+    // Handle claim skin as NFT
+    const handleClaimSkin = async (skin) => {
+        if (!blockchain.account) {
+            showToast('error', 'Please connect your wallet first!');
+            return;
+        }
+
+        setIsClaimingSkin(true);
+        try {
+            const result = await blockchain.claimSkinNFT(skin.id, skin.name, skin.colors);
+            showToast('success', `${skin.name} claimed as NFT! Check your wallet.`);
+            return result;
+        } catch (error) {
+            console.error('Failed to claim skin:', error);
+            showToast('error', error.message || 'Failed to claim skin NFT.');
+            throw error;
+        } finally {
+            setIsClaimingSkin(false);
+        }
+    };
+
     return (
         <div className="app">
             {/* Wallet Info in Corner */}
@@ -223,12 +256,12 @@ function App() {
 
                         <button 
                             className="menu-button config-button"
-                            onClick={() => setCurrentScreen('config')}
+                            onClick={() => setCurrentScreen('customization')}
                         >
-                            <div className="menu-button-icon">CFG</div>
+                            <div className="menu-button-icon">🎨</div>
                             <div className="menu-button-content">
-                                <div className="menu-button-title">CONFIG</div>
-                                <div className="menu-button-subtitle">TWEAK YOUR TETRIS EXPERIENCE</div>
+                                <div className="menu-button-title">CUSTOMIZATION</div>
+                                <div className="menu-button-subtitle">UNLOCK AND CLAIM BLOCK SKINS AS NFTS</div>
                             </div>
                         </button>
 
@@ -414,18 +447,15 @@ function App() {
                 </div>
             )}
 
-            {/* Config Screen */}
-            {currentScreen === 'config' && (
-                <div className="config-screen">
-                    <button 
-                        className="btn btn-secondary back-button"
-                        onClick={() => setCurrentScreen('menu')}
-                    >
-                        ← BACK TO MENU
-                    </button>
-                    <h1>CONFIG</h1>
-                    <p>Configuration options coming soon...</p>
-                </div>
+            {/* Customization Screen */}
+            {currentScreen === 'customization' && (
+                <CustomizationMenu
+                    onBack={() => setCurrentScreen('menu')}
+                    onSkinSelect={(skin) => {
+                        setSelectedSkin(skin);
+                        console.log('Selected skin:', skin);
+                    }}
+                />
             )}
 
             {/* Username Registration Screen */}

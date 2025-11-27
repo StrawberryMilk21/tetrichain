@@ -83,10 +83,13 @@ const getPieceShape = (piece) => {
     return null;
 };
 
-const GameBoard = ({ grid, currentPiece, ghostPiece, isPaused, renderTrigger, clearingLines = [] }) => {
+const GameBoard = ({ grid, currentPiece, ghostPiece, isPaused, renderTrigger, clearingLines = [], skinColors = null }) => {
     const canvasRef = useRef(null);
     const [animationProgress, setAnimationProgress] = useState(0);
     const animationFrameRef = useRef(null);
+    
+    // Use skin colors if provided, otherwise use default
+    const colors = skinColors || PIECE_COLORS;
 
     // Animate line clear effect
     useEffect(() => {

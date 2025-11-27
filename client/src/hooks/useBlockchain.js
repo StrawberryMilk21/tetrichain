@@ -450,6 +450,69 @@ export const useBlockchain = () => {
         });
     }, [account, signAndExecuteTransaction]);
 
+    /**
+     * Claim a skin as an NFT by minting it on the blockchain
+     */
+    const claimSkinNFT = useCallback((skinId, skinName, skinColors) => {
+        return new Promise((resolve, reject) => {
+            if (!account) {
+                reject(new Error('Wallet not connected'));
+                return;
+            }
+
+            const tx = new Transaction();
+            tx.setSender(account.address);
+            
+            // Convert colors object to array of strings
+            const colorsArray = Object.values(skinColors);
+            
+            tx.moveCall({
+                target: `${CONTRACT_CONFIG.packageId}::${CONTRACT_CONFIG.moduleName}::mint_skin`,
+                arguments: [
+                    tx.pure.string(skinName),
+                    tx.pure.u8(0), // rarity: 0=common (can be customized later)
+                    tx.pure.vector('string', colorsArray),
+                    tx.object(CONTRACT_CONFIG.clockId),
+                ],
+            });
+
+            tx.setGasBudget(TX_CONFIG.submitScoreGasBudget);
+
+            signAndExecuteTransaction(
+                { 
+                    transaction: tx,
+                },
+                {
+                    onSuccess: async (result) => {
+                        try {
+                            console.log('Skin NFT claimed successfully:', result);
+                            
+                            // Mark skin as claimed in localStorage
+                            const claimedSkins = JSON.parse(localStorage.getItem('claimedSkins') || '[]');
+                            if (!claimedSkins.includes(skinId)) {
+                                claimedSkins.push(skinId);
+                                localStorage.setItem('claimedSkins', JSON.stringify(claimedSkins));
+                            }
+                            
+                            resolve({
+                                success: true,
+                                skinId,
+                                digest: result.digest,
+                            });
+                        } catch (error) {
+                            console.error('Error after claiming skin:', error);
+                            reject(error);
+                        }
+                    },
+                    onError: (error) => {
+                        console.error('Failed to claim skin NFT:', error);
+                        reject(error);
+                    },
+                }
+            );
+        });
+    }, [account, signAndExecuteTransaction]);
+
     // Note: Username is loaded from localStorage in the effect above
     // No need to fetch from blockchain since module isn't deployed yet
 
@@ -471,5 +534,7 @@ export const useBlockchain = () => {
         isRegisteringUsername,
         registerUsername,
         fetchUsername,
+        // Skin NFT functions
+        claimSkinNFT,
     };
 };
