@@ -8,6 +8,7 @@ import { useGame } from './useGame.js';
  */
 export function useMultiplayerBattle(socket, roomData, opponentData) {
   const [opponentGameState, setOpponentGameState] = useState(null);
+  const [opponentRenderTrigger, setOpponentRenderTrigger] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
 
@@ -22,48 +23,70 @@ export function useMultiplayerBattle(socket, roomData, opponentData) {
 
   // Start the game when room is ready (only once)
   useEffect(() => {
-    if (!roomData || !localGame || gameStartedRef.current) return;
+    if (!roomData || !localGame.startGame || gameStartedRef.current) return;
 
-    console.log('🎮 Starting multiplayer battle with seed:', gameSeed);
+    console.log('🎮 Starting multiplayer battle');
+    console.log('🎲 Game seed:', gameSeed);
+    console.log('🎲 Room ID:', roomData.roomId);
+    
+    // Start the game - this activates the game loop in useGame
     localGame.startGame();
     gameStartedRef.current = true;
+    
+    console.log('✅ Game started, isGameActive:', localGame.isGameActive);
+    
+    // Log first few pieces to verify determinism
+    setTimeout(() => {
+      if (localGame.gameState && localGame.gameState.nextQueue) {
+        console.log('🎲 First 5 pieces in queue:', localGame.gameState.nextQueue.slice(0, 5));
+      }
+    }, 500);
 
     return () => {
       if (syncIntervalRef.current) {
         clearInterval(syncIntervalRef.current);
       }
+      // Stop the game when unmounting
+      if (localGame.pauseGame) {
+        localGame.pauseGame();
+      }
     };
-  }, [roomData]);
+  }, [roomData, localGame, gameSeed]);
 
   // Sync game state to opponent periodically
   useEffect(() => {
     if (!socket || !roomData || !gameStartedRef.current) return;
 
-    // Send state updates every 100ms
+    console.log('📡 Starting state sync interval');
+
+    // Send state updates every 150ms (not too frequent to avoid lag)
     const interval = setInterval(() => {
-      if (localGame.gameState && !localGame.gameState.isGameOver) {
+      const state = localGame.gameState;
+      if (state && !state.isGameOver && !state.isPaused) {
         socket.emit('game:state_update', {
           roomId: roomData.roomId,
           state: {
-            grid: localGame.gameState.grid,
-            score: localGame.gameState.score,
-            linesCleared: localGame.gameState.linesCleared,
-            level: localGame.gameState.level,
-            currentPiece: localGame.gameState.currentPiece,
-            nextQueue: localGame.gameState.nextQueue,
-            holdPiece: localGame.gameState.holdPiece,
-            piecesPlaced: localGame.gameState.piecesPlaced || 0,
+            grid: state.grid,
+            score: state.score,
+            linesCleared: state.linesCleared,
+            level: state.level,
+            currentPiece: state.currentPiece,
+            nextQueue: state.nextQueue,
+            holdPiece: state.holdPiece,
+            piecesPlaced: state.piecesPlaced || 0,
+            ghostPiece: state.ghostPiece,
           },
         });
       }
-    }, 100);
+    }, 150);
 
     syncIntervalRef.current = interval;
 
     return () => {
+      console.log('📡 Stopping state sync interval');
       clearInterval(interval);
     };
-  }, [socket, roomData]);
+  }, [socket, roomData, localGame.gameState]);
 
   // Check for game over
   useEffect(() => {
@@ -86,21 +109,31 @@ export function useMultiplayerBattle(socket, roomData, opponentData) {
     if (!socket) return;
 
     const handleOpponentState = (data) => {
-      console.log('📡 Received opponent state:', data.state.score);
-      setOpponentGameState(data.state);
+      if (data && data.state) {
+        // Log occasionally to verify piece sequences match
+        if (data.state.score % 500 === 0 && data.state.score > 0) {
+          console.log('🎲 Opponent next queue:', data.state.nextQueue?.slice(0, 3));
+          console.log('🎲 Local next queue:', localGame.gameState?.nextQueue?.slice(0, 3));
+        }
+        setOpponentGameState(data.state);
+        setOpponentRenderTrigger(prev => prev + 1); // Force re-render
+      } else {
+        console.warn('📡 Received invalid opponent state:', data);
+      }
     };
 
     const handleOpponentGameOver = () => {
-      console.log('🎉 Opponent lost!');
+      console.log('🎉 Opponent lost! You win!');
       setIsGameOver(true);
       setWinner('local');
     };
 
-    console.log('📡 Listening for opponent updates');
+    console.log('📡 Setting up opponent state listeners');
     socket.on('game:opponent_state', handleOpponentState);
     socket.on('game:opponent_game_over', handleOpponentGameOver);
 
     return () => {
+      console.log('📡 Removing opponent state listeners');
       socket.off('game:opponent_state', handleOpponentState);
       socket.off('game:opponent_game_over', handleOpponentGameOver);
     };
@@ -112,6 +145,7 @@ export function useMultiplayerBattle(socket, roomData, opponentData) {
     localGame,
     localGameState: localGame.gameState,
     opponentGameState,
+    opponentRenderTrigger,
     isGameOver,
     winner,
   };

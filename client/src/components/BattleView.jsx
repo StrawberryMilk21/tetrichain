@@ -10,6 +10,7 @@ function BattleView({
   // Opponent data
   opponentPlayer,
   opponentGameState,
+  opponentRenderTrigger = 0,
   
   // Battle data
   wager = 0,
@@ -172,8 +173,8 @@ function BattleView({
               currentPiece={opponentState.currentPiece}
               ghostPiece={opponentState.ghostPiece}
               isPaused={false}
-              clearingLines={opponentState.clearingLines}
-              renderTrigger={opponentState.renderTrigger}
+              clearingLines={opponentState.clearingLines || []}
+              renderTrigger={opponentRenderTrigger}
               isOpponent={true}
             />
 

@@ -393,6 +393,7 @@ function App() {
                             localGameState={multiplayerBattle.localGameState}
                             opponentPlayer={{ username: battleFlow.opponentData?.username, address: battleFlow.opponentData?.address }}
                             opponentGameState={multiplayerBattle.opponentGameState}
+                            opponentRenderTrigger={multiplayerBattle.opponentRenderTrigger}
                             wager={battleFlow.roomData?.wager}
                             onForfeit={() => battleFlow.forfeitBattle()}
                         />
