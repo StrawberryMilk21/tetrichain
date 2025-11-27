@@ -10,11 +10,13 @@ import Toast from './components/Toast.jsx';
 import UsernameRegistrationModal from './components/UsernameRegistrationModal.jsx';
 import MultiplayerMenu from './components/MultiplayerMenu.jsx';
 import BattleView from './components/BattleView.jsx';
+import SkinUnlockNotification from './components/SkinUnlockNotification.jsx';
 import { useGame } from './hooks/useGame.js';
 import { useBlockchain } from './hooks/useBlockchain.js';
 import { useWebSocket } from './hooks/useWebSocket.js';
 import { useBattleFlow } from './hooks/useBattleFlow.js';
 import { useMultiplayerBattle } from './hooks/useMultiplayerBattle.js';
+import { useSkinUnlocks } from './hooks/useSkinUnlocks.js';
 
 function App() {
     const [gameSeedObjectId, setGameSeedObjectId] = useState(null);
@@ -27,6 +29,9 @@ function App() {
     
     const game = useGame(gameSeed);
     const blockchain = useBlockchain();
+    
+    // Skin unlock system
+    const skinUnlocks = useSkinUnlocks(game.gameState.score);
     
     // Multiplayer hooks
     const webSocket = useWebSocket(blockchain.account?.address, blockchain.username);
@@ -456,6 +461,12 @@ function App() {
                     onClose={() => setToast({ ...toast, show: false })}
                 />
             )}
+
+            {/* Skin Unlock Notification */}
+            <SkinUnlockNotification
+                skin={skinUnlocks.newlyUnlocked}
+                onClose={skinUnlocks.clearNotification}
+            />
         </div>
     );
 }

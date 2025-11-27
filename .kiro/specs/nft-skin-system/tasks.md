@@ -73,7 +73,9 @@
 
 ## Phase 5: Deploy Smart Contract
 
-- [-] 6. Deploy updated contract to Sui testnet
+- [x] 6. Deploy updated contract to Sui testnet
+
+
 
   - Build and deploy contract
   - Update packageId in config.js
@@ -82,17 +84,25 @@
 
 ## Phase 6: Frontend - Milestone & Unlock System
 
-- [ ] 7. Implement milestone detection
-  - [ ] 7.1 Create useSkinUnlocks hook
+- [x] 7. Implement milestone detection
+
+
+  - [x] 7.1 Create useSkinUnlocks hook
+
+
     - Check score against milestone thresholds
     - Store unlocked skins in localStorage
     - _Requirements: 2.1, 2.2, 2.3, 2.5_
   
-  - [ ] 7.2 Add unlock notification component
+  - [x] 7.2 Add unlock notification component
+
+
     - Toast notification when milestone reached
     - _Requirements: 2.4_
   
-  - [ ] 7.3 Integrate milestone check into game loop
+  - [x] 7.3 Integrate milestone check into game loop
+
+
     - Call check after score updates
     - _Requirements: 2.1, 2.2, 2.3_
 
