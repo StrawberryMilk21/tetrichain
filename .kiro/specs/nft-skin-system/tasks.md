@@ -164,6 +164,7 @@
 - [x] 10. Build marketplace UI
 
 
+
   - [x] 10.1 Create MarketplaceView component
 
 
@@ -191,29 +192,41 @@
 
 ## Phase 10: Frontend - Username System Fix
 
-- [ ] 11. Fix username registration flow
-  - [ ] 11.1 Create UsernamePrompt component
+- [x] 11. Fix username registration flow
+
+
+  - [x] 11.1 Create UsernamePrompt component
+
+
     - Modal for first-time users
     - Input field with validation
     - _Requirements: 6.1_
   
-  - [ ] 11.2 Implement on-chain username registration
+  - [x] 11.2 Implement on-chain username registration
+
+
     - Call smart contract register_username
     - Store username in localStorage as cache
     - _Requirements: 6.2, 6.3_
   
-  - [ ] 11.3 Check username on app load
+  - [x] 11.3 Check username on app load
+
+
     - Query contract for existing username
     - Skip prompt if already registered
     - _Requirements: 6.3, 6.5_
   
-  - [ ] 11.4 Update leaderboard to show usernames
+  - [x] 11.4 Update leaderboard to show usernames
+
+
     - Fetch usernames for all addresses
     - Display username instead of address
     - Fall back to address if no username
     - _Requirements: 6.4_
   
-  - [ ] 11.5 Handle registration errors
+  - [x] 11.5 Handle registration errors
+
+
     - Allow retry or continue with address
     - _Requirements: 6.6_
 
