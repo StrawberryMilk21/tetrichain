@@ -140,10 +140,16 @@ function setupEventHandlers() {
 
     // Game state synchronization
     socket.on('game:state_update', async (data: { roomId: string; state: any }) => {
-      if (!socket.walletAddress) return;
+      if (!socket.walletAddress) {
+        logger.warn('game:state_update without wallet address');
+        return;
+      }
 
       const room = await roomManager.getRoom(data.roomId);
-      if (!room) return;
+      if (!room) {
+        logger.warn('game:state_update for non-existent room', { roomId: data.roomId });
+        return;
+      }
 
       // Get opponent's wallet address
       const opponentAddress = room.player1.address === socket.walletAddress
@@ -154,6 +160,17 @@ function setupEventHandlers() {
         socketManager.emitToPlayer(opponentAddress, 'game:opponent_state', {
           state: data.state,
         });
+        
+        // Log occasionally
+        if (data.state.score % 100 === 0) {
+          logger.debug('Relayed game state', { 
+            from: socket.walletAddress.substring(0, 10),
+            to: opponentAddress.substring(0, 10),
+            score: data.state.score 
+          });
+        }
+      } else {
+        logger.warn('No opponent found for state update');
       }
     });
 

@@ -60,6 +60,7 @@ export function useMultiplayerBattle(socket, roomData, opponentData) {
     console.log('📡 Starting state sync interval');
 
     // Send state updates every 150ms (not too frequent to avoid lag)
+    let updateCount = 0;
     const interval = setInterval(() => {
       const state = localGame.gameState;
       if (state && !state.isGameOver && !state.isPaused) {
@@ -77,6 +78,10 @@ export function useMultiplayerBattle(socket, roomData, opponentData) {
             ghostPiece: state.ghostPiece,
           },
         });
+        updateCount++;
+        if (updateCount % 20 === 0) { // Log every 20 updates (~3 seconds)
+          console.log('📤 Sent state update #' + updateCount, 'Score:', state.score);
+        }
       }
     }, 150);
 
@@ -106,19 +111,16 @@ export function useMultiplayerBattle(socket, roomData, opponentData) {
 
   // Listen for opponent's game state
   useEffect(() => {
-    if (!socket) return;
+    if (!socket) {
+      console.warn('📡 No socket available for opponent state');
+      return;
+    }
+
+    console.log('📡 Setting up opponent state listeners, socket connected:', socket.connected);
 
     const handleOpponentState = (data) => {
+      console.log('📡 Received opponent state!', data?.state?.score);
       if (data && data.state) {
-        // Log every 50 updates to debug
-        if (Math.random() < 0.02) { // ~2% of updates
-          console.log('📡 Opponent state update:', {
-            score: data.state.score,
-            hasGrid: !!data.state.grid,
-            hasPiece: !!data.state.currentPiece,
-            nextQueue: data.state.nextQueue?.length
-          });
-        }
         setOpponentGameState(data.state);
         setOpponentRenderTrigger(prev => prev + 1); // Force re-render
       } else {
@@ -132,9 +134,11 @@ export function useMultiplayerBattle(socket, roomData, opponentData) {
       setWinner('local');
     };
 
-    console.log('📡 Setting up opponent state listeners');
     socket.on('game:opponent_state', handleOpponentState);
     socket.on('game:opponent_game_over', handleOpponentGameOver);
+
+    // Test if socket is working
+    console.log('📡 Socket event listeners registered');
 
     return () => {
       console.log('📡 Removing opponent state listeners');
