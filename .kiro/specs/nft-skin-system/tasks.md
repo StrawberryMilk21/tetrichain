@@ -232,13 +232,16 @@
 
 ## Phase 11: Integration & Polish
 
-- [ ] 12. Connect all systems
+- [x] 12. Connect all systems
+
+
   - Wire customization menu to main menu
   - Wire marketplace to main menu
   - Test full flow: play → unlock → claim → customize → trade
   - _Requirements: All_
 
-- [ ] 13. Final testing and bug fixes
+- [-] 13. Final testing and bug fixes
+
   - Test on testnet with real transactions
   - Verify NFTs appear in Sui wallet
   - Test marketplace trades between accounts
