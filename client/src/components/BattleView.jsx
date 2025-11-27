@@ -38,6 +38,15 @@ function BattleView({
   const localState = localGameState || defaultGameState;
   const opponentState = opponentGameState || defaultGameState;
 
+  // Debug logging
+  if (Math.random() < 0.01) { // Log occasionally
+    console.log('🎨 BattleView render:', {
+      hasOpponentState: !!opponentGameState,
+      opponentScore: opponentState.score,
+      opponentHasPiece: !!opponentState.currentPiece
+    });
+  }
+
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;

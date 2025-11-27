@@ -110,10 +110,14 @@ export function useMultiplayerBattle(socket, roomData, opponentData) {
 
     const handleOpponentState = (data) => {
       if (data && data.state) {
-        // Log occasionally to verify piece sequences match
-        if (data.state.score % 500 === 0 && data.state.score > 0) {
-          console.log('🎲 Opponent next queue:', data.state.nextQueue?.slice(0, 3));
-          console.log('🎲 Local next queue:', localGame.gameState?.nextQueue?.slice(0, 3));
+        // Log every 50 updates to debug
+        if (Math.random() < 0.02) { // ~2% of updates
+          console.log('📡 Opponent state update:', {
+            score: data.state.score,
+            hasGrid: !!data.state.grid,
+            hasPiece: !!data.state.currentPiece,
+            nextQueue: data.state.nextQueue?.length
+          });
         }
         setOpponentGameState(data.state);
         setOpponentRenderTrigger(prev => prev + 1); // Force re-render
