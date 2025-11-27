@@ -77,10 +77,13 @@ export function useMultiplayerBattle(socket, roomData, opponentData) {
     }
 
     console.log('📡 Starting state sync interval');
+    console.log('📡 About to create setInterval...');
 
     // Send state updates every 150ms (not too frequent to avoid lag)
     let updateCount = 0;
     const interval = setInterval(() => {
+      console.log('⏰ Interval tick #' + updateCount); // ALWAYS log to verify interval is running
+      updateCount++;
       const state = gameStateRef.current; // Use ref to get latest state
       
       // Debug: log state availability
@@ -112,10 +115,11 @@ export function useMultiplayerBattle(socket, roomData, opponentData) {
       }
     }, 150);
 
+    console.log('📡 Interval created:', interval);
     syncIntervalRef.current = interval;
 
     return () => {
-      console.log('📡 Stopping state sync interval');
+      console.log('📡 Stopping state sync interval, ID:', interval);
       clearInterval(interval);
     };
   }, [socket, roomData]); // Removed localGame.gameState dependency to prevent restarts
