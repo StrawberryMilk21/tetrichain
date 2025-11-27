@@ -20,6 +20,7 @@ import { useBattleFlow } from './hooks/useBattleFlow.js';
 import { useMultiplayerBattle } from './hooks/useMultiplayerBattle.js';
 import { useSkinUnlocks } from './hooks/useSkinUnlocks.js';
 import { useSound } from './hooks/useSound.js';
+import "./App.css";
 
 function App() {
     const [gameSeedObjectId, setGameSeedObjectId] = useState(null);
