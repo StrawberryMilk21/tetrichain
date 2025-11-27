@@ -137,6 +137,43 @@ function setupEventHandlers() {
         await roomManager.leaveRoom(data.roomId, socket.walletAddress);
       }
     });
+
+    // Game state synchronization
+    socket.on('game:state_update', async (data: { roomId: string; state: any }) => {
+      if (!socket.walletAddress) return;
+
+      const room = await roomManager.getRoom(data.roomId);
+      if (!room) return;
+
+      // Get opponent's wallet address
+      const opponentAddress = room.player1.address === socket.walletAddress
+        ? room.player2?.address
+        : room.player1.address;
+
+      if (opponentAddress) {
+        socketManager.emitToPlayer(opponentAddress, 'game:opponent_state', {
+          state: data.state,
+        });
+      }
+    });
+
+    socket.on('game:over', async (data: { roomId: string; winner: string }) => {
+      if (!socket.walletAddress) return;
+
+      const room = await roomManager.getRoom(data.roomId);
+      if (!room) return;
+
+      // Notify opponent
+      const opponentAddress = room.player1.address === socket.walletAddress
+        ? room.player2?.address
+        : room.player1.address;
+
+      if (opponentAddress) {
+        socketManager.emitToPlayer(opponentAddress, 'game:opponent_game_over', {});
+      }
+
+      logger.info('Game over', { roomId: data.roomId, winner: data.winner });
+    });
   });
 }
 

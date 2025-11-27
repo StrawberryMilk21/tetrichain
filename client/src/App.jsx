@@ -14,6 +14,7 @@ import { useGame } from './hooks/useGame.js';
 import { useBlockchain } from './hooks/useBlockchain.js';
 import { useWebSocket } from './hooks/useWebSocket.js';
 import { useBattleFlow } from './hooks/useBattleFlow.js';
+import { useMultiplayerBattle } from './hooks/useMultiplayerBattle.js';
 
 function App() {
     const [gameSeedObjectId, setGameSeedObjectId] = useState(null);
@@ -29,7 +30,12 @@ function App() {
     
     // Multiplayer hooks
     const webSocket = useWebSocket(blockchain.account?.address, blockchain.username);
-    const battleFlow = useBattleFlow(webSocket, blockchain.account?.address, blockchain.username);
+    const battleFlow = useBattleFlow(webSocket.socket, blockchain.account?.address, blockchain.username);
+    const multiplayerBattle = useMultiplayerBattle(
+        webSocket.socket,
+        battleFlow.roomData,
+        battleFlow.opponentData
+    );
     
     // Handle wallet connection and username flow
     useEffect(() => {
@@ -383,9 +389,11 @@ function App() {
                     {/* Show Battle View if in battle */}
                     {battleFlow.battleState === 'playing' && battleFlow.roomData ? (
                         <BattleView
-                            room={battleFlow.roomData}
-                            localPlayer={blockchain.account?.address}
-                            onGameOver={() => battleFlow.forfeitBattle()}
+                            localPlayer={{ username: blockchain.username, address: blockchain.account?.address }}
+                            localGameState={multiplayerBattle.localGameState}
+                            opponentPlayer={{ username: battleFlow.opponentData?.username, address: battleFlow.opponentData?.address }}
+                            opponentGameState={multiplayerBattle.opponentGameState}
+                            wager={battleFlow.roomData?.wager}
                             onForfeit={() => battleFlow.forfeitBattle()}
                         />
                     ) : (
