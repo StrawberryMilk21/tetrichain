@@ -19,6 +19,7 @@ import { useWebSocket } from './hooks/useWebSocket.js';
 import { useBattleFlow } from './hooks/useBattleFlow.js';
 import { useMultiplayerBattle } from './hooks/useMultiplayerBattle.js';
 import { useSkinUnlocks } from './hooks/useSkinUnlocks.js';
+import { useSound } from './hooks/useSound.js';
 
 function App() {
     const [gameSeedObjectId, setGameSeedObjectId] = useState(null);
@@ -35,6 +36,7 @@ function App() {
     
     const game = useGame(gameSeed);
     const blockchain = useBlockchain();
+    const sound = useSound();
     
     // Skin unlock system
     const skinUnlocks = useSkinUnlocks(game.gameState.score);
@@ -212,6 +214,14 @@ function App() {
             {/* Landing Screen */}
             {currentScreen === 'landing' && (
                 <div className="landing-screen">
+                    <button 
+                        className="mute-button"
+                        onClick={sound.toggleMute}
+                        title={sound.isMuted ? 'Unmute' : 'Mute'}
+                    >
+                        {sound.isMuted ? '🔇' : '🔊'}
+                    </button>
+                    
                     <h1 className="game-title">TETRICHAIN</h1>
                     <p className="game-subtitle">WEB3 TETRIS ON SUI BLOCKCHAIN</p>
                     
@@ -235,7 +245,11 @@ function App() {
                     <div className="menu-options">
                         <button 
                             className="menu-button solo-button"
-                            onClick={() => setCurrentScreen('solo')}
+                            onMouseEnter={() => sound.playHoverSound()}
+                            onClick={() => {
+                                sound.playClickSound();
+                                setCurrentScreen('solo');
+                            }}
                         >
                             <div className="menu-button-icon">1P</div>
                             <div className="menu-button-content">
@@ -246,7 +260,11 @@ function App() {
 
                         <button 
                             className="menu-button multiplayer-button"
-                            onClick={() => showToast('info', 'Multiplayer coming soon! Stay tuned for epic battles.')}
+                            onMouseEnter={() => sound.playHoverSound()}
+                            onClick={() => {
+                                sound.playClickSound();
+                                showToast('info', 'Multiplayer coming soon! Stay tuned for epic battles.');
+                            }}
                         >
                             <div className="menu-button-icon">MP</div>
                             <div className="menu-button-content">
@@ -257,7 +275,11 @@ function App() {
 
                         <button 
                             className="menu-button config-button"
-                            onClick={() => setCurrentScreen('customization')}
+                            onMouseEnter={() => sound.playHoverSound()}
+                            onClick={() => {
+                                sound.playClickSound();
+                                setCurrentScreen('customization');
+                            }}
                         >
                             <div className="menu-button-icon">🎨</div>
                             <div className="menu-button-content">
@@ -268,7 +290,11 @@ function App() {
 
                         <button 
                             className="menu-button marketplace-button"
-                            onClick={() => setCurrentScreen('marketplace')}
+                            onMouseEnter={() => sound.playHoverSound()}
+                            onClick={() => {
+                                sound.playClickSound();
+                                setCurrentScreen('marketplace');
+                            }}
                         >
                             <div className="menu-button-icon">🛒</div>
                             <div className="menu-button-content">
