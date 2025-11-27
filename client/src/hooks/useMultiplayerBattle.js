@@ -8,7 +8,6 @@ import { useGame } from './useGame.js';
  */
 export function useMultiplayerBattle(socket, roomData, opponentData) {
   const [opponentGameState, setOpponentGameState] = useState(null);
-  const [opponentRenderTrigger, setOpponentRenderTrigger] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
 
@@ -149,7 +148,7 @@ export function useMultiplayerBattle(socket, roomData, opponentData) {
       console.log('📡 Received opponent state!', data?.state?.score);
       if (data && data.state) {
         setOpponentGameState(data.state);
-        setOpponentRenderTrigger(prev => prev + 1); // Force re-render
+        // No need to force re-render - React will automatically re-render when state changes
       } else {
         console.warn('📡 Received invalid opponent state:', data);
       }
@@ -180,7 +179,6 @@ export function useMultiplayerBattle(socket, roomData, opponentData) {
     localGame,
     localGameState: localGame.gameState,
     opponentGameState,
-    opponentRenderTrigger,
     isGameOver,
     winner,
   };
