@@ -10,13 +10,13 @@ import '../css/tetrio-theme.css';
 const queryClient = new QueryClient();
 
 const networks = {
-    testnet: { url: getFullnodeUrl('testnet') },
+    'onechain-testnet': { url: 'https://rpc-testnet.onelabs.cc:443' },
 };
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
-            <SuiClientProvider networks={networks} defaultNetwork="testnet">
+            <SuiClientProvider networks={networks} defaultNetwork="onechain-testnet">
                 <WalletProvider>
                     <App />
                 </WalletProvider>

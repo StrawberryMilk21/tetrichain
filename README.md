@@ -8,7 +8,7 @@
 
 ## 📖 Project Overview
 
-TetriChain is a fully decentralized Tetris game built on the Sui blockchain. Players can enjoy classic Tetris gameplay while earning TETRI tokens, collecting NFT skins, competing on global leaderboards, and battling other players in real-time multiplayer matches. All game scores and NFT assets are stored on-chain, ensuring true ownership, transparency, and provably fair gameplay.
+TetriChain is a fully decentralized Tetris game built on OneChain Testnet (Sui-compatible blockchain). Players can enjoy classic Tetris gameplay while earning TETRI tokens, collecting NFT skins, competing on global leaderboards, and battling other players in real-time multiplayer matches. All game scores and NFT assets are stored on-chain, ensuring true ownership, transparency, and provably fair gameplay.
 
 **Experience the nostalgia of Tetris with the power of Web3 technology!**
 
@@ -20,7 +20,7 @@ TetriChain is a fully decentralized Tetris game built on the Sui blockchain. Pla
 |----------|------|
 | 🌐 **Live Web App** | [https://tetrichain.vercel.app/](https://tetrichain.vercel.app/) |
 | 🎥 **YouTube Demo** | [https://www.youtube.com/watch?v=ZqRBqGTaZiA](https://www.youtube.com/watch?v=ZqRBqGTaZiA) |
-| 📦 **Smart Contract** | [View on SuiScan](https://testnet.suivision.xyz/package/0x9fb6a73cd68dfb1821ab456982e6c9256546a8ecd29cd14bd7b803a2e3c9eb37) |
+| 📦 **Smart Contract** | [View on OneChain Explorer](https://explorer.onelabs.cc/object/0x8b5ce060fabd9c448c54ae4b98353616b134bc6d6b4ee01bf5c7a54eac56ea51) |
 
 ---
 
@@ -173,7 +173,7 @@ TetriChain is a fully decentralized Tetris game built on the Sui blockchain. Pla
 
 | Technology | Purpose |
 |------------|---------|
-| **Sui Network** | Layer 1 blockchain (Testnet) |
+| **OneChain Testnet** | Sui-compatible Layer 1 blockchain |
 | **Move Language** | Smart contract development |
 | **OneWallet** | Wallet connection |
 | **Sui Random** | On-chain randomness |
@@ -271,7 +271,7 @@ TetriChain is a fully decentralized Tetris game built on the Sui blockchain. Pla
 
 - **Node.js** v18 or higher
 - **OneWallet** browser extension
-- **Sui Testnet** tokens (for gas fees)
+- **OneChain Testnet** tokens (OCT for gas fees)
 
 ### Installation
 
@@ -329,8 +329,8 @@ http://localhost:5173
 
 1. Install [OneWallet browser extension](https://chrome.google.com/webstore)
 2. Create or import a wallet
-3. Switch network to **Sui Testnet**
-4. Get testnet SUI tokens from [Sui Faucet](https://faucet.testnet.sui.io/)
+3. Switch network to **OneChain Testnet**
+4. Get testnet OCT tokens from [OneChain Faucet](https://faucet-testnet.onelabs.cc/)
 5. Connect wallet to TetriChain
 
 ### Game Controls
@@ -436,11 +436,11 @@ npm run test:watch
 
 ## 📄 Smart Contract
 
-**Package ID**: `0x9fb6a73cd68dfb1821ab456982e6c9256546a8ecd29cd14bd7b803a2e3c9eb37`
+**Package ID**: `0x8b5ce060fabd9c448c54ae4b98353616b134bc6d6b4ee01bf5c7a54eac56ea51`
 
-**Network**: Sui Testnet
+**Network**: OneChain Testnet (Sui-compatible)
 
-**Explorer**: [View on SuiScan](https://testnet.suivision.xyz/package/0x9fb6a73cd68dfb1821ab456982e6c9256546a8ecd29cd14bd7b803a2e3c9eb37)
+**Explorer**: [View on OneChain Explorer](https://explorer.onelabs.cc/object/0x8b5ce060fabd9c448c54ae4b98353616b134bc6d6b4ee01bf5c7a54eac56ea51)
 
 ---
 
@@ -472,7 +472,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 🙏 Acknowledgments
 
-- **Sui Foundation** - for the amazing blockchain platform
+- **OneChain** - for the Sui-compatible blockchain platform
+- **Sui Foundation** - for the Move language and tooling
 - **Tetris** - for the timeless game concept
 - **Kiro IDE** - for AI-powered development tools
 - **Open Source Community** - for the incredible tools and libraries

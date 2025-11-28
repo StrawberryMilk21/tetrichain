@@ -27,3 +27,7 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Other team members' work folders
+wongnenghorng/
+gohsinhua/

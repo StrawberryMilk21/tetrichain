@@ -5,25 +5,25 @@
  * Update these values after deploying the smart contract.
  */
 
-// Sui Network Configuration
-export const NETWORK = 'testnet';
-export const RPC_URL = 'https://fullnode.testnet.sui.io:443';
+// OneChain Testnet Configuration (Sui-compatible)
+export const NETWORK = 'onechain-testnet';
+export const RPC_URL = 'https://rpc-testnet.onelabs.cc:443';
 
 // WebSocket Server Configuration
 export const WEBSOCKET_CONFIG = {
     serverUrl: import.meta.env.VITE_SOCKET_SERVER_URL || 'http://localhost:3001',
 };
 
-// Deployed Contract Addresses
+// Deployed Contract Addresses (OneChain Testnet)
 export const CONTRACT_CONFIG = {
-    // Package ID - the deployed smart contract package (Updated with NFT Skin System)
-    packageId: '0x9fb6a73cd68dfb1821ab456982e6c9256546a8ecd29cd14bd7b803a2e3c9eb37',
+    // Package ID - the deployed smart contract package
+    packageId: '0x8b5ce060fabd9c448c54ae4b98353616b134bc6d6b4ee01bf5c7a54eac56ea51',
     
     // Shared Objects - required for transactions
-    leaderboardId: '0x7a172b5b34966a3efb437402bb1ad3c1e112e01466f297f730deec23c56f53ac',
-    treasuryId: '0x66e95c3bf2cc405afd12e5c68c11f974eb099cc1f90a26d7b2f87cc7641d3bd7',
-    usernameRegistryId: '0x27ec11dacbb79fc0de4f9dfacb2220ed941ae97a12c9bb504cbcf3954c267351',
-    marketplaceId: '0x945b30973e865aa12e4b8aea43163b195e00b73565376caaab4c151b8e4214be',
+    leaderboardId: '0x61fa2e0b767048a95aece77d7f5f8983eeaefb14cfaf1c3dc894c48d6702eca1',
+    treasuryId: '0xd0175f31d000cd4256b2c8c266380dab6b757f5c3328d2faa004320536e1aec6',
+    usernameRegistryId: '0xcd3ad59b9810963d90c66142a633c7b7c4034ca00d1d6385afa1414bdfb9998c',
+    marketplaceId: '0xc7d68b5e8dfaa12bc7db8215b1ac561ae0ad310a2f96a0b6e2b4ae44bae695db',
     
     // System Objects - Sui built-in objects
     randomId: '0x8',  // Sui Random object
@@ -34,7 +34,7 @@ export const CONTRACT_CONFIG = {
     
     // Token Information
     token: {
-        type: '0x9fb6a73cd68dfb1821ab456982e6c9256546a8ecd29cd14bd7b803a2e3c9eb37::game::GAME',
+        type: '0x8b5ce060fabd9c448c54ae4b98353616b134bc6d6b4ee01bf5c7a54eac56ea51::game::GAME',
         symbol: 'TETRI',
         name: 'TetriChain Token',
         decimals: 0,  // Token has no decimals - raw balance is display balance
@@ -63,7 +63,7 @@ export const GAME_CONFIG = {
 };
 
 // Explorer URLs
-export const EXPLORER_URL = 'https://testnet.suivision.xyz';
+export const EXPLORER_URL = 'https://explorer.onelabs.cc';
 
 export function getPackageUrl() {
     return `${EXPLORER_URL}/package/${CONTRACT_CONFIG.packageId}`;
